@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navy"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPS AutoClick"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Posizione simulata + pressione automatica"
+            android:textColor="@color/muted"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="POSIZIONE GPS"
+            android:textColor="@color/cyan"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/latInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/cyan"
+            android:hint="Latitudine, es. 45.4642"
+            android:inputType="numberDecimal|numberSigned"
+            android:textColor="@color/white"
+            android:textColorHint="@color/muted" />
+
+        <EditText
+            android:id="@+id/lonInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/cyan"
+            android:hint="Longitudine, es. 9.1900"
+            android:inputType="numberDecimal|numberSigned"
+            android:textColor="@color/white"
+            android:textColorHint="@color/muted" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/startGpsBtn"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Avvia GPS" />
+
+            <Button
+                android:id="@+id/stopGpsBtn"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="Stop GPS" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/mockSettingsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="8dp"
+            android:text="Impostazioni posizione fittizia" />
+
+        <TextView
+            android:id="@+id/gpsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="GPS simulato: fermo"
+            android:textColor="@color/muted" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="AUTOMAZIONE APP"
+            android:textColor="@color/cyan"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/pickAppBtn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:text="Scegli app" />
+
+        <EditText
+            android:id="@+id/packageInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/cyan"
+            android:hint="Pacchetto app, es. com.esempio.app"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/muted" />
+
+        <EditText
+            android:id="@+id/buttonTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/cyan"
+            android:hint="Testo pulsante, es. CONNETTI"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/muted" />
+
+        <Button
+            android:id="@+id/accessibilityBtn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="Attiva servizio Accessibilità" />
+
+        <Button
+            android:id="@+id/launchAutoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="8dp"
+            android:text="APRI APP E PREMI IL TASTO"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/autoStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Automazione: pronta"
+            android:textColor="@color/muted" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingBottom="24dp"
+            android:text="Nota: alcune app possono rifiutare le posizioni fittizie o non esporre i propri pulsanti al servizio Accessibilità."
+            android:textColor="@color/muted"
+            android:textSize="13sp" />
+    </LinearLayout>
+</ScrollView>
