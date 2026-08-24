@@ -1,20 +1,6 @@
-# GPS AutoClick v0.3
+# GPS AutoClick v0.4
 
-Funzioni:
-1. Coordinate GPS simulate tramite Android Mock Location.
-2. Apertura di una app tramite package name.
-3. Pressione automatica di un pulsante cercato per testo o contentDescription tramite Accessibility Service.
-
-## Primo avvio
-- Abilitare Opzioni sviluppatore.
-- In "Seleziona app posizione fittizia" scegliere GPS AutoClick.
-- In Accessibilità attivare il servizio GPS AutoClick.
-- Inserire latitudine e longitudine e premere Avvia GPS.
-- Inserire package name dell'app target e testo del pulsante, poi premere APRI APP E PREMI IL TASTO.
-
-La posizione fornita è identificabile da Android come mock location. Alcune app possono rifiutarla.
-
-
-## Correzione v0.3
-- Dichiarato `android.permission.ACCESS_MOCK_LOCATION`, necessario perché Android proponga GPS AutoClick in **Opzioni sviluppatore > Seleziona app di posizione fittizia**.
-- Aggiunto il tipo di foreground service `location` e relativo permesso per Android recenti.
+- Posizione GPS simulata tramite mock location Android.
+- Selettore interno delle app installate: mostra nome reale e pacchetto Android.
+- Memorizza automaticamente l'app scelta.
+- Apertura dell'app e pressione del pulsante configurato tramite Accessibility Service.

@@ -110,16 +110,25 @@
             android:layout_marginTop="10dp"
             android:text="Scegli app" />
 
-        <EditText
-            android:id="@+id/packageInput"
+        <TextView
+            android:id="@+id/selectedAppName"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/cyan"
-            android:hint="Pacchetto app, es. com.esempio.app"
-            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Nessuna app selezionata"
             android:textColor="@color/white"
-            android:textColorHint="@color/muted" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedPackage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="8dp"
+            android:text="Pacchetto: —"
+            android:textColor="@color/muted"
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/buttonTextInput"

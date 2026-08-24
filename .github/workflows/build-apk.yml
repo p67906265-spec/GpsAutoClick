@@ -1,9 +1,9 @@
-name: Build Android APK
+name: Build GPS AutoClick APK
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,5 +21,5 @@ jobs:
         run: gradle :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: GPS-AutoClick-v0.2-debug
+          name: GPS-AutoClick-v0.4-debug
           path: app/build/outputs/apk/debug/app-debug.apk

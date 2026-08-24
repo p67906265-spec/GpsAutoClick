@@ -2,10 +2,12 @@ package it.paolo.gpsautoclick;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -14,11 +16,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class MainActivity extends Activity {
-    private static final int REQ_PICK_APP = 100;
-    private EditText latInput, lonInput, packageInput, buttonTextInput;
-    private TextView gpsStatus, autoStatus;
+    private EditText latInput, lonInput, buttonTextInput;
+    private TextView gpsStatus, autoStatus, selectedAppName, selectedPackage;
     private SharedPreferences prefs;
+    private String targetPackage = "";
+    private String targetAppName = "";
+
+    private static class AppEntry {
+        final String label;
+        final String packageName;
+        AppEntry(String label, String packageName) {
+            this.label = label;
+            this.packageName = packageName;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +45,18 @@ public class MainActivity extends Activity {
         prefs = getSharedPreferences("cfg", MODE_PRIVATE);
         latInput = findViewById(R.id.latInput);
         lonInput = findViewById(R.id.lonInput);
-        packageInput = findViewById(R.id.packageInput);
         buttonTextInput = findViewById(R.id.buttonTextInput);
         gpsStatus = findViewById(R.id.gpsStatus);
         autoStatus = findViewById(R.id.autoStatus);
+        selectedAppName = findViewById(R.id.selectedAppName);
+        selectedPackage = findViewById(R.id.selectedPackage);
 
         latInput.setText(prefs.getString("lat", "45.4642"));
         lonInput.setText(prefs.getString("lon", "9.1900"));
-        packageInput.setText(prefs.getString("targetPackage", ""));
         buttonTextInput.setText(prefs.getString("buttonText", ""));
+        targetPackage = prefs.getString("targetPackage", "");
+        targetAppName = prefs.getString("targetAppName", "");
+        updateSelectedAppUi();
 
         Button startGpsBtn = findViewById(R.id.startGpsBtn);
         Button stopGpsBtn = findViewById(R.id.stopGpsBtn);
@@ -58,26 +78,75 @@ public class MainActivity extends Activity {
             }
         });
         accessibilityBtn.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
-        pickAppBtn.setOnClickListener(v -> pickApp());
+        pickAppBtn.setOnClickListener(v -> showInstalledApps());
         launchAutoBtn.setOnClickListener(v -> launchAndClick());
     }
 
-    private void pickApp() {
-        Intent base = new Intent(Intent.ACTION_MAIN);
-        base.addCategory(Intent.CATEGORY_LAUNCHER);
-        Intent picker = new Intent(Intent.ACTION_PICK_ACTIVITY);
-        picker.putExtra(Intent.EXTRA_INTENT, base);
-        picker.putExtra(Intent.EXTRA_TITLE, "Scegli app da automatizzare");
-        startActivityForResult(picker, REQ_PICK_APP);
+    private void showInstalledApps() {
+        PackageManager pm = getPackageManager();
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        List<ResolveInfo> resolved = pm.queryIntentActivities(launcherIntent, PackageManager.MATCH_ALL);
+        List<AppEntry> apps = new ArrayList<>();
+
+        for (ResolveInfo info : resolved) {
+            if (info.activityInfo == null || info.activityInfo.packageName == null) continue;
+            String pkg = info.activityInfo.packageName;
+            if (pkg.equals(getPackageName())) continue;
+            CharSequence labelCs = info.loadLabel(pm);
+            String label = labelCs != null ? labelCs.toString() : pkg;
+            apps.add(new AppEntry(label, pkg));
+        }
+
+        Collections.sort(apps, Comparator.comparing(a -> a.label.toLowerCase()));
+
+        if (apps.isEmpty()) {
+            Toast.makeText(this, "Nessuna app trovata", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String[] labels = new String[apps.size()];
+        for (int i = 0; i < apps.size(); i++) {
+            AppEntry app = apps.get(i);
+            labels[i] = app.label + "\n" + app.packageName;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Scegli app da automatizzare")
+                .setItems(labels, (dialog, which) -> {
+                    AppEntry app = apps.get(which);
+                    targetPackage = app.packageName;
+                    targetAppName = app.label;
+                    prefs.edit()
+                            .putString("targetPackage", targetPackage)
+                            .putString("targetAppName", targetAppName)
+                            .apply();
+                    updateSelectedAppUi();
+                    autoStatus.setText("App selezionata: " + targetAppName);
+                })
+                .setNegativeButton("Annulla", null)
+                .show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_PICK_APP && resultCode == RESULT_OK && data != null && data.getComponent() != null) {
-            String pkg = data.getComponent().getPackageName();
-            packageInput.setText(pkg);
-            prefs.edit().putString("targetPackage", pkg).apply();
+    private void updateSelectedAppUi() {
+        if (targetPackage.isEmpty()) {
+            selectedAppName.setText("Nessuna app selezionata");
+            selectedPackage.setText("Pacchetto: —");
+        } else {
+            if (targetAppName.isEmpty()) targetAppName = getLabelForPackage(targetPackage);
+            selectedAppName.setText("App scelta: " + targetAppName);
+            selectedPackage.setText("Pacchetto: " + targetPackage);
+        }
+    }
+
+    private String getLabelForPackage(String pkg) {
+        try {
+            ApplicationInfo ai = getPackageManager().getApplicationInfo(pkg, 0);
+            CharSequence label = getPackageManager().getApplicationLabel(ai);
+            return label != null ? label.toString() : pkg;
+        } catch (Exception e) {
+            return pkg;
         }
     }
 
@@ -111,22 +180,32 @@ public class MainActivity extends Activity {
     }
 
     private void launchAndClick() {
-        String pkg = packageInput.getText().toString().trim();
         String button = buttonTextInput.getText().toString().trim();
-        if (pkg.isEmpty() || button.isEmpty()) {
-            Toast.makeText(this, "Inserisci pacchetto app e testo del pulsante", Toast.LENGTH_LONG).show();
+        if (targetPackage.isEmpty()) {
+            Toast.makeText(this, "Prima premi SCEGLI APP", Toast.LENGTH_LONG).show();
             return;
         }
-        prefs.edit().putString("targetPackage", pkg).putString("buttonText", button).putBoolean("armed", true).apply();
+        if (button.isEmpty()) {
+            Toast.makeText(this, "Inserisci il testo del pulsante da premere", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        Intent launch = getPackageManager().getLaunchIntentForPackage(pkg);
+        prefs.edit()
+                .putString("targetPackage", targetPackage)
+                .putString("targetAppName", targetAppName)
+                .putString("buttonText", button)
+                .putBoolean("armed", true)
+                .apply();
+
+        Intent launch = getPackageManager().getLaunchIntentForPackage(targetPackage);
         if (launch == null) {
-            autoStatus.setText("App non trovata: controlla il nome pacchetto");
+            autoStatus.setText("Impossibile aprire " + targetAppName);
+            Toast.makeText(this, "L'app selezionata non espone una schermata avviabile", Toast.LENGTH_LONG).show();
             return;
         }
         launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(launch);
-        autoStatus.setText("Automazione armata: cerco \"" + button + "\"");
+        autoStatus.setText("Automazione attiva: cerco \"" + button + "\" in " + targetAppName);
     }
 
     private void requestPermissionsIfNeeded() {
