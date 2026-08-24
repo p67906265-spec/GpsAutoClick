@@ -30,8 +30,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="POSIZIONE GPS"
+            android:layout_marginTop="26dp"
+            android:text="POSIZIONE GPS MANUALE"
             android:textColor="@color/cyan"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -40,9 +40,9 @@
             android:id="@+id/latInput"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/cyan"
-            android:hint="Latitudine, es. 45.4642"
+            android:hint="Latitudine"
             android:inputType="numberDecimal|numberSigned"
             android:textColor="@color/white"
             android:textColorHint="@color/muted" />
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:backgroundTint="@color/cyan"
-            android:hint="Longitudine, es. 9.1900"
+            android:hint="Longitudine"
             android:inputType="numberDecimal|numberSigned"
             android:textColor="@color/white"
             android:textColorHint="@color/muted" />
@@ -97,8 +97,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="AUTOMAZIONE APP"
+            android:layout_marginTop="28dp"
+            android:text="AUTOMAZIONE MANUALE"
             android:textColor="@color/cyan"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -107,14 +107,14 @@
             android:id="@+id/pickAppBtn"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:text="Scegli app" />
 
         <TextView
             android:id="@+id/selectedAppName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:text="Nessuna app selezionata"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -124,8 +124,7 @@
             android:id="@+id/selectedPackage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="2dp"
             android:text="Pacchetto: —"
             android:textColor="@color/muted"
             android:textSize="12sp" />
@@ -135,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:backgroundTint="@color/cyan"
-            android:hint="Testo pulsante, es. CONNETTI"
+            android:hint="Testo pulsante, es. USCITA"
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/muted" />
@@ -163,11 +162,57 @@
             android:textColor="@color/muted" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="4 AUTOMAZIONI PROGRAMMATE"
+            android:textColor="@color/cyan"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Ogni automazione può avere ora, app, tasto e coordinate diverse."
+            android:textColor="@color/muted"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/automationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/exactAlarmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="Consenti orari precisi" />
+
+        <Button
+            android:id="@+id/saveSchedulesBtn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:text="SALVA E PROGRAMMA I 4 ORARI"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/scheduleStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Programmazione: non salvata"
+            android:textColor="@color/muted" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:paddingBottom="24dp"
-            android:text="Nota: alcune app possono rifiutare le posizioni fittizie o non esporre i propri pulsanti al servizio Accessibilità."
+            android:text="Nota: Android o l'app scelta possono limitare avvii automatici, posizioni fittizie o click tramite Accessibilità."
             android:textColor="@color/muted"
             android:textSize="13sp" />
     </LinearLayout>
