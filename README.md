@@ -1,4 +1,4 @@
-# GPS AutoClick v0.2
+# GPS AutoClick v0.3
 
 Funzioni:
 1. Coordinate GPS simulate tramite Android Mock Location.
@@ -13,3 +13,8 @@ Funzioni:
 - Inserire package name dell'app target e testo del pulsante, poi premere APRI APP E PREMI IL TASTO.
 
 La posizione fornita è identificabile da Android come mock location. Alcune app possono rifiutarla.
+
+
+## Correzione v0.3
+- Dichiarato `android.permission.ACCESS_MOCK_LOCATION`, necessario perché Android proponga GPS AutoClick in **Opzioni sviluppatore > Seleziona app di posizione fittizia**.
+- Aggiunto il tipo di foreground service `location` e relativo permesso per Android recenti.
