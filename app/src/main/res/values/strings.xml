@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">GPS AutoClick</string>
-    <string name="accessibility_desc">Apre l'app scelta e preme automaticamente il pulsante configurato.</string>
+    <string name="accessibility_desc">Apre la app scelta e preme automaticamente il pulsante configurato.</string>
 </resources>

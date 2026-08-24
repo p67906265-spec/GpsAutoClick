@@ -1,6 +1,6 @@
-# Esempio: repository già clonato in ~/GpsAutoClick
+# Repository già clonato in ~/GpsAutoClick
 cd ~/GpsAutoClick
-unzip -o /sdcard/Download/GpsAutoClick_v0_1.zip -d ~/GpsAutoClick
+unzip -o /sdcard/Download/GpsAutoClick_v0_2.zip -d ~/GpsAutoClick
 git add .
-git commit -m "GPS AutoClick v0.1"
+git commit -m "GPS AutoClick v0.2 - fix build"
 git push

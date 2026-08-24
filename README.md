@@ -1,4 +1,4 @@
-# GPS AutoClick v0.1
+# GPS AutoClick v0.2
 
 Funzioni:
 1. Coordinate GPS simulate tramite Android Mock Location.
